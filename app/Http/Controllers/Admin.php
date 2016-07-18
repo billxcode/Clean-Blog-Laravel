@@ -5,10 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Auth;
 
 class Admin extends Controller
 {
     //
+    public function __construct(){
+        $this->middleware('auth');
+    }
 	private $data= Array(
 	'title'=>'Login Admin'
 		);
@@ -19,10 +23,11 @@ class Admin extends Controller
     		'dateregister'=>'19-06-2016',
     		);
 
-    public function login(){
-    	return View("admin.signin",$this->data);
-    }
+    
     public function dashboard(){
+        if(Auth::check()){
+            return redirect()->intended('/');
+        }
     	return View('admin.dashboard',$this->dataadmin);
     }
     public function profile(){
